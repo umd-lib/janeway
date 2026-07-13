@@ -701,6 +701,30 @@ def serve_press_cover(request, file_to_serve):
         )
         return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
 
+# Begin USMAI Customization -------------------------
+
+def serve_press_hero(request, file_to_serve):
+    """Serve a file to the user using a StreamingHttpResponse.
+    :param request: the active request
+    :param file_to_serve: the file to serve
+    :return: a StreamingHttpResponse object with the requested file or an HttpResponseRedirect if there is an IO or
+    permission error
+    """
+
+    file_path = os.path.join(
+        settings.BASE_DIR, "files", "press", str(file_to_serve.uuid_filename)
+    )
+
+    try:
+        response = serve_file_to_browser(file_path, file_to_serve)
+        return response
+    except IOError:
+        messages.add_message(
+            request, messages.ERROR, "File not found. {0}".format(file_path)
+        )
+        return HttpResponseRedirect(request.META.get("HTTP_REFERER"))
+
+# End USMAI Customization -------------------------
 
 def save_file_to_journal(
     request, file_to_handle, label, description, xslt=False, public=False

@@ -26,6 +26,16 @@
         <hr/>
 
         <div class="large-8 columns">
+            {% include "admin/elements/forms/field.html" with field=attr_form.hero_image %}
+        </div>
+        <div class="large-4 columns">
+            {% if request.journal.hero_image %}
+                <img src="{{ request.journal.hero_image.url }}" class="thumbnail float-right">
+            {% endif %}
+        </div>
+        <hr/>
+
+        <div class="large-8 columns">
             {% include "admin/elements/forms/field.html" with field=attr_form.default_large_image %}
         </div>
         <div class="large-4 columns">

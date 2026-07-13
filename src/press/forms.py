@@ -20,6 +20,13 @@ class PressForm(forms.ModelForm):
         widget=JanewayFileInput,
     )
 
+    # Begin USMAI Customization ----------------
+    press_hero = forms.FileField(
+        required=False,
+        widget=JanewayFileInput,
+    )
+    # End USMAI Customization ------------------
+
     class Meta:
         model = models.Press
         fields = (
@@ -27,6 +34,10 @@ class PressForm(forms.ModelForm):
             "main_contact",
             "theme",
             "description",
+            # Begin USMAI Customization ----------------
+            "homepage_h1_text",
+            "homepage_slogan",
+            # End USMAI Customization ------------------
             "footer_description",
             "journal_footer_text",
             "secondary_image",
@@ -44,6 +55,9 @@ class PressForm(forms.ModelForm):
         )
         widgets = {
             "theme": forms.Select(choices=logic.get_theme_list()),
+            # Begin USMAI Customization ---------------
+            "homepage_slogan": TinyMCE(),
+            # End USMAI Customization -----------------
             "footer_description": TinyMCE(),
             "journal_footer_text": TinyMCE(),
             "description": TinyMCE(),
@@ -53,16 +67,29 @@ class PressForm(forms.ModelForm):
         press = super(PressForm, self).save(commit=False)
         request = GlobalRequestMiddleware.get_current_request()
 
-        file = self.cleaned_data.get("press_logo", None)
-
-        if file:
-            file = files.save_file_to_press(request, file, "Press Logo", "")
+        # Begin USMAI Customization -------------------
+        press_logo_file = self.cleaned_data.get("press_logo", None)
+        if press_logo_file:
+            press_logo_file = files.save_file_to_press(request, press_logo_file, "Press Logo", "")
+            # End USMAI Customization ----------------------
 
             # Delete the old file from the disk
             if press.thumbnail_image:
                 press.thumbnail_image.delete()
 
-            press.thumbnail_image = file
+            # Begin USMAI Customization -------------------
+            press.thumbnail_image = press_logo_file
+
+        press_hero_file = self.cleaned_data.get("press_hero", None)
+        if press_hero_file:
+            press_hero_file = files.save_file_to_press(request, press_hero_file, "Press Hero", "")
+
+            # Delete the old file from the disk
+            if press.hero_image:
+                press.hero_image.delete()
+
+            press.hero_image = press_hero_file
+        # End USMAI Customization ---------------------
 
         if commit:
             press.save()

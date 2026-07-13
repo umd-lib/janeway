@@ -504,6 +504,9 @@ class JournalImageForm(forms.ModelForm):
         model = journal_models.Journal
         fields = (
             "header_image",
+            # Begin USMAI Customization --------------------
+            "hero_image",
+            # End USMAI Customization --------------------
             "default_cover_image",
             "default_large_image",
             "favicon",

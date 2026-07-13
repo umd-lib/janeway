@@ -3,7 +3,6 @@ __author__ = "Martin Paul Eve & Andy Byers"
 __license__ = "AGPL v3"
 __maintainer__ = "Birkbeck Centre for Technology and Publishing"
 
-
 import json
 import os
 import uuid
@@ -29,9 +28,7 @@ from utils.function_cache import cache
 from utils.logger import get_logger
 from press import utils
 
-
 logger = get_logger(__name__)
-
 
 fs = JanewayFileSystemStorage()
 
@@ -86,6 +83,17 @@ class Press(AbstractSiteModel):
         verbose_name="Publisher description",
         help_text="This will appear in web search results and on social media when the press URL is shared",
     )
+    # Begin USMAI Customization ---------------------
+    homepage_h1_text = models.CharField(
+        blank=True,
+        max_length=30,
+        verbose_name="Homepage H1 Text",
+        help_text="The H1 to display on the press homepage hero. Default is the press name if blank.")
+    homepage_slogan = JanewayBleachField(
+        blank=True,
+        verbose_name="Homepage Slogan",
+        help_text="A slogan to show in the Janeway hero. Optional.")
+    # End USMAI Customization ---------------------
     footer_description = JanewayBleachField(
         blank=True,
         verbose_name="Footer text",
@@ -95,9 +103,19 @@ class Press(AbstractSiteModel):
         blank=True,
         verbose_name="Journal footer text",
         help_text="Text that will appear in the footer "
-        "of every journal, to display publisher "
-        "address or other essential info. ",
+                  "of every journal, to display publisher "
+                  "address or other essential info. ",
     )
+    # Begin USMAI Customization --------------------
+    hero_image = models.ForeignKey(
+        "core.File",
+        null=True,
+        blank=True,
+        related_name="press_hero_image",
+        verbose_name="Press Hero",
+        on_delete=models.SET_NULL,
+    )
+    # End USMAI Customization ---------------------
     secondary_image = SVGImageField(
         upload_to=cover_images_upload_path,
         null=True,
@@ -143,7 +161,7 @@ class Press(AbstractSiteModel):
         blank=True,
         null=True,
         help_text="URL to an external privacy-policy, linked from the page"
-        " footer. If blank, it links to the Janeway CMS page: /site/privacy.",
+                  " footer. If blank, it links to the Janeway CMS page: /site/privacy.",
     )
 
     password_number = models.BooleanField(
@@ -268,7 +286,7 @@ class Press(AbstractSiteModel):
         if path is not None:
             # Ignore duplicate site code if provided in code
             if path.startswith(_path):
-                path = path[len(_path) :]
+                path = path[len(_path):]
             _path += path
 
         return logic.build_url(

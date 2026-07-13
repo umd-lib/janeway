@@ -212,6 +212,9 @@ class PressMiddleware(BaseMiddleware):
                 "core_edit_profile",
                 "core_logout",
                 "press_cover_download",
+                # Begin USMAI Customization ----------------
+                "press_hero_download"
+                # End USMAI Customization ------------------
                 "core_manager_index",
                 "django_summernote-editor",
                 "django_summernote-upload_attachment",

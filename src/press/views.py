@@ -124,9 +124,17 @@ def journals(request):
 
     template = "press/press_journals.html"
 
+    # Begin USMAI Customization ------------------------
+    filter_val = request.GET.get("filter", "").lower()
+    journals = [
+        j for j in request.press.public_journals
+        if filter_val in j.name.lower()
+    ]
+
     context = {
-        "journals": request.press.public_journals,
+        "journals": journals,
     }
+    # End USMAI Customization --------------------------
 
     return render(request, template, context)
 
@@ -219,9 +227,12 @@ def edit_press(request):
     """
 
     press = request.press
+    # Begin USMAI Customization ----------------------------
     form = forms.PressForm(
-        instance=press, initial={"press_logo": press.thumbnail_image}
+        instance=press, initial={"press_logo": press.thumbnail_image,
+                                 "press_hero": press.hero_image}
     )
+    # End USMAI Customization ---------------------------
 
     if request.POST:
         form = forms.PressForm(request.POST, request.FILES, instance=press)
@@ -261,6 +272,20 @@ def serve_press_cover(request):
     else:
         raise Http404
 
+# Begin USMAI Customization ------------------
+def serve_press_hero(request):
+    """
+    Returns the Press's hero file
+    :param request: HttpRequest object
+    :return: HttpStreamingResponse object with file
+    """
+    p = press_models.Press.get_press(request)
+
+    if p.hero_image:
+        return files.serve_press_hero(request, p.hero_image)
+    else:
+        raise Http404
+# End USMAI Customization -------------------------
 
 @staff_member_required
 def serve_press_file(request, file_id):

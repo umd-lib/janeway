@@ -167,6 +167,17 @@ class Journal(AbstractSiteModel):
             "typically used for journal logos."
         ),
     )
+    # Begin USMAI Customization ----------------
+    hero_image = models.ImageField(
+        upload_to=cover_images_upload_path,
+        null=True,
+        blank=True,
+        storage=fs,
+        help_text=gettext(
+            "The hero to display on Press pages"
+        ),
+    )
+    # End USMAI Customization ----------------
     favicon = models.ImageField(
         upload_to=cover_images_upload_path,
         null=True,

@@ -104,6 +104,11 @@ urlpatterns = [
     re_path(
         r"^press/cover/$", press_views.serve_press_cover, name="press_cover_download"
     ),
+    # Begin USMAI Customization ------------------
+    re_path(
+        r"^press/hero/$", press_views.serve_press_hero, name="press_hero_download"
+    ),
+    # End USMAI Customization --------------------
     re_path(
         r"^press/file/(?P<file_id>\d+)/$",
         press_views.serve_press_file,
