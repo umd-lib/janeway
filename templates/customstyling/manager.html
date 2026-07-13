@@ -1,0 +1,71 @@
+{% extends "admin/core/base.html" %}
+{% load foundation %}
+
+{% block title %}{% trans 'Custom Styling' %}{% endblock %}
+
+{% block breadcrumbs %}
+    <li>
+        <a href="{% url 'customstyling_manager' %}">Custom Styling Plugin</a>
+    </li>
+{% endblock %}
+
+{% block body %}
+    <div class="box">
+        <div class="title-area">
+            <h2>{% trans 'Cross Site Stylesheets' %}</h2>
+        </div>
+        <div class="content">
+            <a href="{% url 'customstyling_settings' %}" class="button">Plugin Settings</a>
+            <a href="{% url 'customstyling_new_lcjsc' %}" class="button">Add New Stylesheet</a>
+            <ul>
+                {% for cjs in cjs_list %}
+                    <li>
+                        <a href="{% url 'customstyling_edit_lcjsc' cjs.pk %}">{{ cjs.stylesheet_name }}</a>
+                        {% if cjs.journals %}
+                            <ul>
+                                <li>Used by: {% for journal in cjs.journals.all %}{{ journal.code }}{% if not forloop.last %}, {% endif %}{% endfor %}</li>
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+        <div class="title-area">
+            <h2>{% trans 'Custom Styling' %}</h2>
+        </div>
+        <div class="content">
+
+            <p>{% trans 'Select a journal to manage custom CSS for.' %}</p>
+            <ul>
+                <li>
+                    Press
+                    <ul>
+                        <li>
+                            <a href="{% url 'customstyling_manage_press_css' %}">{{ request.press.name }}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Journals
+                    <ul>
+                        {% for journal in journals %}
+                            <li>
+                                <a href="{% url 'customstyling_manage_css_journal' journal.pk %}">{{ journal.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li>
+                    Repositories
+                    <ul>
+                        {%  for repository in repositories %}
+                            <a href="{% url 'customstyling_manage_css_repository' repository.pk %}">{{ repository.name }}</a>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+{% endblock body %}
