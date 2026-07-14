@@ -8,7 +8,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("press", "0001_initial"),
+        ("press", "0037_press_hero_image_press_homepage_h1_text_and_more"),
     ]
 
     operations = [
