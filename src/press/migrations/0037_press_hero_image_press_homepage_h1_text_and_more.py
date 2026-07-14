@@ -8,8 +8,8 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0110_one_click_review_on_by_default'),
-        ('press', '0036_remove_press_password_reset_text_and_more'),
+        ('core', '0081_alter_account_preferred_timezone'),
+        ('press', '0001_initial'),
     ]
 
     operations = [
