@@ -141,7 +141,9 @@ src/utils/management/commands/test_command.py
 !/src/themes/clean/
 !/src/themes/material/
 !/src/themes/OLH/
+# Begin USMAI Customization --------
 !/src/themes/usmai/
+# End USMAI Customization ----------
 
 # Static files
 /src/static/*
@@ -149,3 +151,12 @@ src/utils/management/commands/test_command.py
 !/src/static/admin/
 /src/static/admin/hypothesis/**
 jenkins/test-results
+
+# Begin USMAI Customization --------
+.python-version
+src/django-mailgun
+src/django-materializecss-form
+src/dynamicsites
+src/ebooklib
+src/foundationform
+# End USMAI Customization ------------

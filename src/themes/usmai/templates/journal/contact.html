@@ -3,28 +3,31 @@
 {% load i18n %}
 
 {% block title %}{% trans "Contact" %}{% endblock title %}
-{% block page_hero_title %}{% trans "Contact us" %}{% endblock %}
 
-{% block body %}
+<!-- Begin USMAI Customization -->
+{% block page_hero_title %}{% trans "Contact us" %}{% endblock %}
+<!-- End USMAI Customization -->
+
+% block body %}
     <section id="content" class="no-padding">
         <div class="row column">
             <div class="large-4 columns contact">
                 {% if request.journal %}
-                    <h2>{% trans "Journal Representatives" %}</h2>
+                    <h4>{% trans "Journal Representatives" %}</h4>
                 {% else %}
-                    <h2>{% trans "Press Representatives" %}</h2>
+                    <h4>{% trans "Press Representatives" %}</h4>
                 {% endif %}
                 {% for contact in contacts %}
-                    <h3>{{ contact.name }}</h3>
+                    <h5>{{ contact.name }}</h5>
                     <p>{{ contact.role }}</p>
                 {% endfor %}
                 {% if journal_settings.general.contact_info %}
-                    <h2>{% trans 'Contact Information' %}</h2>
+                    <h4>{% trans 'Contact Information' %}</h4>
                     {{ journal_settings.general.contact_info|safe }}
                 {% endif %}
             </div>
             <div class="large-8 columns">
-                <h2>{% trans "Contact" %}</h2>
+                <h3>{% trans "Contact" %}</h3>
                 <form method="POST" novalidate>
                     {% include "elements/forms/errors.html" with form=contact_form %}
                     {% csrf_token %}
@@ -33,7 +36,6 @@
                         {% for contact in contacts %}
                             <option value="{{ contact.email }}">{{ contact.name }}, {{ contact.role }}</option>{% endfor %}
                     </select>
-                    {% include "admin/elements/forms/required_field_info.html" %}
                     {{ contact_form.sender|foundation }}
                     {{ contact_form.subject|foundation }}
                     {{ contact_form.body|foundation }}
@@ -41,6 +43,7 @@
                     <button type="submit" class="success button">{% trans "Send Message" %}</button>
                 </form>
             </div>
+
         </div>
     </section>
 {% endblock body %}
