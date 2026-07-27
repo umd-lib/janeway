@@ -1,0 +1,6 @@
+[submodule "available-plugins/customstyling"]
+	path = available-plugins/customstyling
+	url = https://github.com/openlibhums/customstyling.git
+[submodule "available-plugins/datacite"]
+	path = available-plugins/datacite
+	url = https://github.com/openlibhums/datacite.git
