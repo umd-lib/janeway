@@ -176,11 +176,6 @@
                 {% include "press/nav.html" %}
             {% endif %}
         {% endblock navbar %}
-        <!-- Begin USMAI Customization -->
-        {% if not request.journal and not request.repository %}
-        <img class="hero" src="{% url 'press_hero_download' %}" alt="">
-        {% endif  %}
-        <!-- End USMAI Customization -->
     </header>
 
     <main id="main-content">
