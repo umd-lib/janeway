@@ -31,6 +31,8 @@
                             {% include "admin/elements/forms/group_journal_images.html" with form=attr_form %}
                         {% elif group == 'submission' %}
                             {% include "admin/elements/forms/group_submission.html" %}
+                        {% elif group == 'metadata' %}
+                            {% include "admin/elements/forms/group_metadata.html" %}
                         {% elif group == 'styling' %}
                             {% include "admin/elements/forms/group_styling.html" %}
                         {% elif group == 'article' %}
@@ -55,14 +57,5 @@
 {% endblock body %}
 
 {% block js %}
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-    <script type="text/javascript" src="{% static "common/js/jq-ui.min.js" %}"></script>
-    <script src="{% static "common/js/tagit.js" %}"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#id_keywords").tagit(
-                {allowSpaces: true});
-        });
-    </script>
+    {{ attr_form.media }}
 {% endblock %}
