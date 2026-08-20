@@ -2562,10 +2562,11 @@ class OrganizationQueryset(models.query.QuerySet):
             custom_label__isnull=False,
         ).count()
         deduplicated = num_before - num_after
-        percent_matched = round(100 * deduplicated / num_before)
-        logger.debug(
-            f"Matched {deduplicated} organizations ({percent_matched}%) to ROR records."
-        )
+        if num_before > 0:
+            percent_matched = round(100 * deduplicated / num_before)
+            logger.debug(
+                f"Matched {deduplicated} organizations ({percent_matched}%) to ROR records."
+            )
         logger.debug(f"{num_after} uncontrolled organizations remain.")
         if ambiguous_names_in_db:
             logger.debug(
