@@ -2562,7 +2562,9 @@ class OrganizationQueryset(models.query.QuerySet):
             custom_label__isnull=False,
         ).count()
         deduplicated = num_before - num_after
+        # Begin USMAI Customization
         if num_before > 0:
+            # End USMAI Customization
             percent_matched = round(100 * deduplicated / num_before)
             logger.debug(
                 f"Matched {deduplicated} organizations ({percent_matched}%) to ROR records."
@@ -2581,13 +2583,16 @@ class OrganizationQueryset(models.query.QuerySet):
         affils_with_controlled_org = ControlledAffiliation.objects.filter(
             models.Q(organization__isnull=False) & ~models.Q(organization__ror_id=""),
         ).count()
-        ror_controlled_affils_percent = round(
-            100 * affils_with_controlled_org / total_affils_with_org
-        )
-        logger.debug(
-            f"{affils_with_controlled_org} ({ror_controlled_affils_percent}%) of the "
-            f"affiliations in this Janeway instance are now linked to ROR data."
-        )
+        # Begin USMAI Customization
+        if total_affils_with_org:
+        # End USMAI Customization
+            ror_controlled_affils_percent = round(
+                100 * affils_with_controlled_org / total_affils_with_org
+            )
+            logger.debug(
+                f"{affils_with_controlled_org} ({ror_controlled_affils_percent}%) of the "
+                f"affiliations in this Janeway instance are now linked to ROR data."
+            )
 
 
 class OrganizationManager(models.Manager):
