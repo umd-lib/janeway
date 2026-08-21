@@ -68,8 +68,8 @@ Local testing uses Janeway's built-in docker-compose setup.
 5. When complete, view the Janeway application on localhost.
 6. Log in to Janeway as the superuser.
 7. Go to the press manager.
-8. Under press settings, select the USMAI theme, upload a hero from the shared CLAS drive, add h1 text, and add a press
-   logo.
+8. Under press settings, select the USMAI theme, upload a hero from the shared USMAI drive (janeway/Pilot Image Resources), 
+   add h1 text, and add a press logo (in the aforementioned USMAI drive folder).
 9. Save these changes and go back to the press home. View that they look as expected. Understand that not all styling is
    going to look as you want, as the last styling step is to upload campus-specific CSS using the customstyling plugin,
    which is added in the janeway-warpspeed docker image.
@@ -99,8 +99,8 @@ UMD's private k8s-janeway repository.
 8. Check plugin versions in plugins.txt to see whether a new version of a plugin has been published.
 9. Test Janeway using the [local testing instructions](#local-testing)
 10. Commit your changes & push them to GitHub.
-11. Wait for GitHub Actions to finish running the built-in tests (estimated time ~6 min)
-12. Create a new release/tag using the [release naming instructions](#release-naming)
+11. Wait for GitHub Actions to finish running the built-in tests (estimated time ~6 min).
+12. Create a new release/tag using the [release naming instructions](#release-naming).
 
 ### 2: Upgrading the Docker Image
 
@@ -113,10 +113,10 @@ changes to the upgrade process or how Janeway uses environment variables.
 2. Do a similar process for `src/core/janeway_global_settings.py`. Many of these are internal configuration and as such
    do not need to be ported, but there may be some external settings that you might be interested in or some environment
    variables that are changing. This file sets the default settings for Janeway which are then selectively overridden by
-   prod_settings.py
+   `prod_settings.py`.
 3. Test the Janeway application using the instructions included in the janeway-warpspeed repository. You can save
    extensive testing for the Kubernetes test instance, however you many want to test things here that you think might
-   not work as it takes a long time to build each image to test on Kubernetes (~40min)
+   not work as it takes a long time to build each image (~40min).
 4. Once you are satisfied that the application is likely to work properly, create a new release using the release naming
    instructions in the janeway-warpspeed repository. Release only the USMAI version for now.
 5. Wait for the build to complete (~40 minutes)
@@ -142,7 +142,8 @@ Once you are ready to move to production, please do the following steps alongsid
 
 1. Publish the open-source version of janeway-warpspeed by creating a new 'base' release. The instructions on
    janeway-warpspeed describe this procedure.
-2. Update the janeway-collective Helm Chart to a production release (droppign the release candidate tag), while also
-   modifying the code in helpers.tpl to select the tag of the new _open source_ docker image. This should happen
-   regardless of whether there's been modifications to the Helm Chart (unless we start using the docker 'latest'
+2. Update the janeway-collective Helm Chart to a production release (dropping the release candidate tag), while also
+   modifying the tag version at the top of `values.yaml` to the tag of the new _open source_ docker image. This should 
+   happen regardless of whether there's been modifications to the Helm Chart (unless we start using the docker 'latest'
    feature.)
+3. Remember to update the release in Chart.yaml! That's what people will see in the Helm repository after it's built.
